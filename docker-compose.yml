@@ -23,6 +23,26 @@ services:
       - chroma_data:/app/chroma_data
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-exclude venv
 
+  worker:
+    build: .
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:password@db:5432/ragapi
+      - REDIS_URL=redis://redis:6379
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - SECRET_KEY=local-dev-secret-change-in-prod
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - VOYAGE_API_KEY=${VOYAGE_API_KEY}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - chroma_data:/app/chroma_data
+    command: python -m app.worker
+
   db:
     image: postgres:16-alpine
     environment:

@@ -41,3 +41,12 @@ uvicorn==0.44.0
 uvloop==0.22.1
 watchfiles==1.1.1
 websockets==16.0
+langchain
+langchain-anthropic
+langchain-community
+langchain-core
+langchain-text-splitters
+chromadb
+anthropic
+voyageai==0.2.3
+pypdf==4.3.1

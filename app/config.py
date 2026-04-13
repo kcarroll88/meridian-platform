@@ -21,6 +21,9 @@ class Settings(BaseSettings):
 
     # Anthropic
     anthropic_api_key: str = ""
+    
+    # Voyage
+    voyage_api_key: str = ""
 
     # Rate limiting defaults (per tenant, per minute)
     default_rate_limit_requests: int = 60

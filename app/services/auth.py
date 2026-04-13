@@ -7,6 +7,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 from app.config import get_settings
 from app.db.database import get_db
@@ -76,20 +77,20 @@ async def get_tenant_from_api_key(
 
     result = await db.execute(
         select(ApiKey)
-        .join(Tenant)
-        .where(ApiKey.key_hash == key_hash, ApiKey.is_active == True, Tenant.is_active == True)
+        .options(selectinload(ApiKey.tenant))
+        .where(ApiKey.key_hash == key_hash, ApiKey.is_active == True)
     )
     api_key = result.scalar_one_or_none()
 
-    if not api_key:
+    if not api_key or not api_key.tenant or not api_key.tenant.is_active:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or inactive API key",
         )
 
-    # Update last_used_at (fire and forget — don't block the request)
     api_key.last_used_at = datetime.now(timezone.utc)
     await db.commit()
 
     logger.info("api_key_authenticated", tenant_id=str(api_key.tenant_id), prefix=api_key.key_prefix)
     return api_key.tenant
+

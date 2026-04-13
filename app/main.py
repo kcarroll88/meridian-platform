@@ -7,6 +7,7 @@ from app.db.database import init_db
 from app.logger import setup_logging, get_logger
 from app.middleware.tracing import TraceMiddleware
 from app.routers import auth, tenants, health
+from app.routers import auth, tenants, health, rag
 
 settings = get_settings()
 setup_logging()
@@ -45,6 +46,7 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/api/v1")
 app.include_router(tenants.router, prefix="/api/v1")
 app.include_router(health.router)
+app.include_router(rag.router, prefix="/api/v1")
 
 
 @app.get("/")

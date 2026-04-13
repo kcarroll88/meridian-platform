@@ -12,6 +12,7 @@ services:
       - DEBUG=true
       - SECRET_KEY=local-dev-secret-change-in-prod
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - VOYAGE_API_KEY=${VOYAGE_API_KEY}
     depends_on:
       db:
         condition: service_healthy
@@ -19,6 +20,7 @@ services:
         condition: service_healthy
     volumes:
       - .:/app
+      - chroma_data:/app/chroma_data
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-exclude venv
 
   db:
@@ -49,3 +51,4 @@ services:
 
 volumes:
   postgres_data:
+  chroma_data:

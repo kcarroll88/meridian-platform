@@ -103,7 +103,7 @@ curl -X POST http://localhost:8000/api/v1/ingest \
 curl -X POST http://localhost:8000/api/v1/query \
   -H "Authorization: Bearer rtk_..." \
   -H "Content-Type: application/json" \
-  -d '{"question": "What are the refund terms?"}'
+  -d '{"question": "What are the main competitors?"}'
 ```
 
 ### Observability
@@ -158,6 +158,6 @@ uvicorn app.main:app --reload
 ## Roadmap
 
 - [x] Week 1 — FastAPI scaffold, PostgreSQL, JWT + API key auth, tenant CRUD, tracing middleware
-- [ ] Week 2 — RAG query + doc ingest with per-tenant ChromaDB isolation
+- [x] Week 2 — RAG query + doc ingest with per-tenant ChromaDB isolation
 - [ ] Week 3 — Redis rate limiting + job queue, full observability
 - [ ] Week 4 — Locust load tests, cost model, README scale proof section

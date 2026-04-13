@@ -159,5 +159,5 @@ uvicorn app.main:app --reload
 
 - [x] Week 1 — FastAPI scaffold, PostgreSQL, JWT + API key auth, tenant CRUD, tracing middleware
 - [x] Week 2 — RAG query + doc ingest with per-tenant ChromaDB isolation
-- [ ] Week 3 — Redis rate limiting + job queue, full observability
+- [x] Week 3 — Redis rate limiting + job queue, full observability
 - [ ] Week 4 — Locust load tests, cost model, README scale proof section
